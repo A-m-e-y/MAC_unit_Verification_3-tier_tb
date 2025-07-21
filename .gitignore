@@ -7,6 +7,10 @@
 *.obj
 *.elf
 
+# Added by Amey
+simv.daidir/
+csrc/
+
 # Linker output
 *.ilk
 *.map
