@@ -13,3 +13,6 @@ rtl/WallaceTree.v
 rtl/ZeroDetector_Base.v
 rtl/ZeroDetector_Group.v
 rtl/MAC32_top.v
+sim/tb_baseline_sv/mac32_if.sv
+sim/tb_baseline_sv/scoreboard.sv
+sim/tb_baseline_sv/stim_gen.sv

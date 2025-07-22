@@ -8,6 +8,8 @@
 *.elf
 
 # Added by Amey
+simv
+results/
 simv.daidir/
 csrc/
 
