@@ -14,6 +14,6 @@ interface mac32_if #(
     logic clk; // Clock signal
     logic [PARM_XLEN - 1 : 0] Result_o; // Result of A + (B * C)
     
-    event result_ready; // Event to signal that the result is ready
+    event result_ready, sim_end; // Event to signal that the result is ready
 
 endinterface //mac32_if
