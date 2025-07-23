@@ -31,7 +31,9 @@ module tb_mac32_baseline;
 
     initial begin
         $dumpfile("results/tb_mac32_baseline.vcd");
-        $dumpvars(0, tb_mac32_baseline);
+        $dumpvars(0);
+        // $fsdbDumpfile("results/tb_mac32_baseline.fsdb"); // Specify the FSDB file name
+        // $fsdbDumpvars(0);
     end
 
     initial begin

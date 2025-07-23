@@ -11,6 +11,13 @@ module scoreboard #(
     int pass_cnt, fail_cnt, total_cnt;
     shortreal tolerance = 0.001; // Tolerance for floating-point comparison
 
+    initial begin
+        $display();
+        $display();
+        $display("###### Start of Simulation ######");
+        $display();
+    end
+
     // Task to generate the expected result
     task get_expected_result(
         input logic [PARM_XLEN - 1 : 0] A_i,
@@ -46,7 +53,7 @@ module scoreboard #(
             if ($abs(dut_result - expected_result) >= tolerance) begin
                 fail_cnt++;
                 $display("Scoreboard: Test failed! Expected %h (%f), got %h (%h)", $shortrealtobits(expected_result), expected_result, Result_o, $bitstoshortreal(Result_o));
-                $display("[Debug Details] A_i: %h (%f), B_i: %h (%f), C_i: %h (%f)", A_i, $bitstoshortreal(A_i), B_i, $bitstoshortreal(B_i), C_i, $bitstoshortreal(C_i));
+                $display("[Debug Details - time: %0t] A_i: %h (%f), B_i: %h (%f), C_i: %h (%f)", $time, A_i, $bitstoshortreal(A_i), B_i, $bitstoshortreal(B_i), C_i, $bitstoshortreal(C_i));
                 $display("[Debug Details] A_i + B_i * C_i = %h (%f)", $shortrealtobits(expected_result), expected_result);
             end else begin
                 pass_cnt++;
@@ -71,6 +78,11 @@ module scoreboard #(
         wait(mac32_if_inst.sim_end.triggered);
         $display("[time: %0t] Scoreboard Summary: Total tests = %0d, Passed = %0d, Failed = %0d",
                  $stime, total_cnt, pass_cnt, fail_cnt);
+        #100;
+        $display();
+        $display("###### End of Simulation ######");
+        $display();
+        $display();
         $finish; // End simulation
     end
 

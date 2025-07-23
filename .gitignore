@@ -12,6 +12,9 @@ simv
 results/
 simv.daidir/
 csrc/
+nWaveLog/
+novas*
+verdiLog/
 
 # Linker output
 *.ilk
