@@ -46,9 +46,11 @@ module scoreboard #(
             if ($abs(dut_result - expected_result) >= tolerance) begin
                 fail_cnt++;
                 $display("Scoreboard: Test failed! Expected %h (%f), got %h (%h)", $shortrealtobits(expected_result), expected_result, Result_o, $bitstoshortreal(Result_o));
+                $display("[Debug Details] A_i: %h (%f), B_i: %h (%f), C_i: %h (%f)", A_i, $bitstoshortreal(A_i), B_i, $bitstoshortreal(B_i), C_i, $bitstoshortreal(C_i));
+                $display("[Debug Details] A_i + B_i * C_i = %h (%f)", $shortrealtobits(expected_result), expected_result);
             end else begin
                 pass_cnt++;
-                $display("Scoreboard: Test passed! Result = %h (%f)", Result_o, $bitstoshortreal(Result_o));
+                // $display("Scoreboard: Test passed! Result = %h (%f)", Result_o, $bitstoshortreal(Result_o));
             end
         end
     endtask
@@ -67,8 +69,9 @@ module scoreboard #(
 
     always @(posedge mac32_if_inst.clk) begin
         wait(mac32_if_inst.sim_end.triggered);
-        $display("Scoreboard Summary: Total tests = %0d, Passed = %0d, Failed = %0d",
-                 total_cnt, pass_cnt, fail_cnt);
+        $display("[time: %0t] Scoreboard Summary: Total tests = %0d, Passed = %0d, Failed = %0d",
+                 $stime, total_cnt, pass_cnt, fail_cnt);
+        $finish; // End simulation
     end
 
 endmodule
