@@ -8,6 +8,8 @@ class Generator #(
 
     mailbox #(Transaction) mbx;
     Transaction #(PARM_XLEN, PARM_EXP, PARM_MANT, PARM_BIAS) tra;
+    BasicStim #(PARM_XLEN, PARM_EXP, PARM_MANT, PARM_BIAS) basic_stim;
+    RandomStim #(PARM_XLEN, PARM_EXP, PARM_MANT, PARM_BIAS) random_stim;
     virtual mac32_if #(PARM_XLEN, PARM_EXP, PARM_MANT, PARM_BIAS) mac_if;
 
     // Constructor
@@ -19,17 +21,26 @@ class Generator #(
         this.tra = tra;
     endfunction
 
-    task run;
-        repeat(10) begin
-            @(posedge mac_if.clk);
-            // Generate random values for A_i, B_i, C_i
-            assert (tra.randomize())
-            else 
-                $fatal("Randomization failed");
+    task gen_vals(Transaction in_tra);
+        @(posedge mac_if.clk);
+        // Generate random values for A_i, B_i, C_i
+        tra = in_tra;
+        assert (tra.randomize())
+        else 
+            $fatal("Randomization failed");
+        // Apply the random values to the transaction
+        tra.apply();
+        // Send the transaction to the mailbox
+        mbx.put(tra.copy);
+        // tra.display("[Gen]");
+    endtask
 
-            // Send the transaction to the mailbox
-            mbx.put(tra.copy);
-            // tra.display("[Gen]");
+    task run;
+        random_stim = new();
+        basic_stim = new();
+        gen_vals(basic_stim);
+        repeat(10) begin
+            gen_vals(random_stim);
         end
         -> mac_if.gen_done;
     endtask

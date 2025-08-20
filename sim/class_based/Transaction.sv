@@ -8,9 +8,13 @@ class Transaction #(
 );
 
     // Outputs
-    randc bit [PARM_XLEN - 1 : 0] A_i; // First operand
-    randc bit [PARM_XLEN - 1 : 0] B_i; // Second operand
-    randc bit [PARM_XLEN - 1 : 0] C_i; // Third operand
+    bit [PARM_XLEN - 1 : 0] A_i; // First operand
+    bit [PARM_XLEN - 1 : 0] B_i; // Second operand
+    bit [PARM_XLEN - 1 : 0] C_i; // Third operand
+
+    randc int A_sr; // First operand as int
+    randc int B_sr; // Second operand as int
+    randc int C_sr; // Third operand as int
 
     // Inputs
     bit clk; // Clock signal
@@ -19,6 +23,12 @@ class Transaction #(
     function display (string str);
         $display("%s %0t: A_i = %h, B_i = %h, C_i = %h, Result_o = %h", 
                  str, $time, A_i, B_i, C_i, Result_o);
+    endfunction
+
+    function apply ();
+        A_i = $shortrealtobits(A_sr / 4294967295.0);
+        B_i = $shortrealtobits(B_sr / 4294967295.0);
+        C_i = $shortrealtobits(C_sr / 4294967295.0);
     endfunction
 
     function Transaction #(PARM_XLEN, PARM_EXP, PARM_MANT, PARM_BIAS) copy ();
