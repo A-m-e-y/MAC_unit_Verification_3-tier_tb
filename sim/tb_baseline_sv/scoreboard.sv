@@ -64,9 +64,9 @@ module scoreboard #(
 
     always @(posedge mac32_if_inst.clk) begin
         wait(mac32_if_inst.result_ready.triggered);
-        // $display("[scoreboard] Time: %0t, A_i: %h, B_i: %h, C_i: %h, Result_o: %h",
-        //               $time, mac32_if_inst.A_i, mac32_if_inst.B_i,
-        //               mac32_if_inst.C_i, mac32_if_inst.Result_o);
+        $display("[scoreboard] Time: %0t, A_i: %h, B_i: %h, C_i: %h, Result_o: %h",
+                      $time, mac32_if_inst.A_i, mac32_if_inst.B_i,
+                      mac32_if_inst.C_i, mac32_if_inst.Result_o);
 
         check_result(mac32_if_inst.A_i, 
                      mac32_if_inst.B_i, 

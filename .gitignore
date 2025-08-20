@@ -8,6 +8,7 @@
 *.elf
 
 # Added by Amey
+simv*
 simv
 results/
 simv.daidir/
