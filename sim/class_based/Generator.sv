@@ -10,6 +10,7 @@ class Generator #(
     Transaction #(PARM_XLEN, PARM_EXP, PARM_MANT, PARM_BIAS) tra;
     BasicStim #(PARM_XLEN, PARM_EXP, PARM_MANT, PARM_BIAS) basic_stim;
     RandomStim #(PARM_XLEN, PARM_EXP, PARM_MANT, PARM_BIAS) random_stim;
+    EdgeStim #(PARM_XLEN, PARM_EXP, PARM_MANT, PARM_BIAS) edge_stim;
     virtual mac32_if #(PARM_XLEN, PARM_EXP, PARM_MANT, PARM_BIAS) mac_if;
 
     // Constructor
@@ -38,10 +39,19 @@ class Generator #(
     task run;
         random_stim = new();
         basic_stim = new();
-        gen_vals(basic_stim);
-        repeat(10) begin
+        edge_stim = new();
+
+        // Generate basic stimulus
+        basic_stim.gen_stim(mbx, mac_if);
+
+        // Generate random stimulus
+        repeat(200) begin
             gen_vals(random_stim);
         end
+        // Generate edge cases
+        edge_stim.gen_stim(mbx, mac_if);
+
+        // Signal the end of generation
         -> mac_if.gen_done;
     endtask
 

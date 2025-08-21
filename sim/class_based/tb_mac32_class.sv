@@ -63,6 +63,13 @@ module tb;
     ) scb = new (mac_if, mbx, tra);
 
     initial begin
+        integer file_handle = $fopen("./results/class_outputs.txt", "w");
+        if (file_handle == 0) begin
+            $display("Error: Could not open 'results/class_outputs.txt' for writing.");
+            $finish;
+        end else begin
+            $fclose(file_handle);
+        end
         $dumpfile("results/tb_mac32_class.vcd");
         $dumpvars(0);
         // $fsdbDumpfile("results/tb_mac32_baseline.fsdb"); // Specify the FSDB file name

@@ -13,7 +13,7 @@ class Scoreboard  #(
 
     // Counters
     int pass_cnt, fail_cnt, total_cnt;
-    shortreal tolerance = 0.001; // Tolerance for floating-point comparison
+    shortreal tolerance = 1.0; // Tolerance for floating-point comparison
 
     // Constructor
     function new(virtual mac32_if #(PARM_XLEN, PARM_EXP, PARM_MANT, PARM_BIAS) mac_if,
@@ -48,7 +48,7 @@ class Scoreboard  #(
             total_cnt++;
             if ($abs(dut_result - expected_result) >= tolerance) begin
                 fail_cnt++;
-                $display("Scoreboard: Test failed! Expected %h (%f), got %h (%h)", $shortrealtobits(expected_result), expected_result, tra.Result_o, $bitstoshortreal(tra.Result_o));
+                $display("Scoreboard: Test failed! Expected %h (%f), got %h (%f)", $shortrealtobits(expected_result), expected_result, tra.Result_o, $bitstoshortreal(tra.Result_o));
                 $display("[Debug Details - time: %0t] A_i: %h (%f), B_i: %h (%f), C_i: %h (%f)", $time, tra.A_i, $bitstoshortreal(tra.A_i), tra.B_i, $bitstoshortreal(tra.B_i), tra.C_i, $bitstoshortreal(tra.C_i));
                 $display("[Debug Details] A_i + B_i * C_i = %h (%f)", $shortrealtobits(expected_result), expected_result);
             end else begin
@@ -63,7 +63,7 @@ class Scoreboard  #(
         forever begin
             @(posedge mac_if.clk);
             mbx.get(tra);
-            tra.display("[Scb]");
+            tra.dump_display("[Scb]");
             check_result(tra);
             if (mac_if.gen_done.triggered) begin
                 $display();

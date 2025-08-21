@@ -17,6 +17,7 @@ sim/class_based/mac32_if.sv
 sim/class_based/Transaction.sv
 sim/class_based/BasicStim.sv
 sim/class_based/RandomStim.sv
+sim/class_based/EdgeStim.sv
 sim/class_based/Driver.sv
 sim/class_based/Generator.sv
 sim/class_based/Monitor.sv
